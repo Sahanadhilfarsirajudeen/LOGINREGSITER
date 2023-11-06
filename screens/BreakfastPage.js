@@ -22,6 +22,7 @@ const breakfastRecipes = [
   'Recipe Option 1',
   'Recipe Option 2',
   'Recipe Option 3',
+  'Recipe Option 4',
 ];
 
 const BreakfastPage = () => {
