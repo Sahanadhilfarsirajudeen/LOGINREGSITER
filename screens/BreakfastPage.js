@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, ScrollView, TouchableOpacity, Picker, StyleSheet } from 'react-native';
 import { Header, Icon, Overlay } from 'react-native-elements';
 import CustomHeader from './CustomHeader';
+import { useNavigation } from '@react-navigation/native';
 
 const breakfastIngredients = [
   'Ingredients for 10-12 muffin: ',
@@ -35,7 +36,13 @@ const BreakfastPage = () => {
   const closeAlternative = () => setAlternativeVisible(false);
 
   const recipeText = `Slice the vegetables into small cubes, except the peppers, which you will slice into thin strips (similar to sticks). In a non-stick pan, sauté the onion in the oil for a couple of minutes, add the vegetables. Season with salt and pepper and sauté for about 10 minutes. Leave to cool completely. In a bowl, beat the eggs together with the milk and olive oil. Add the grated cheese and the sifted flour. Season with salt and pepper and mix with a spatula. Add the yeast, mix, and add the vegetables, keeping a part of it to decorate the muffins. Divide the mixture into 10-12 greased and floured muffin molds, garnish with the remaining vegetables and bake in the preheated oven at 180°C for about 25 minutes, checking the cooking with a toothpick. Allow cooling completely before serving.`;
+  
+  const navigation = useNavigation();
 
+  const navigateToNextPage = () => {
+    // Implement navigation to the next page here
+    navigation.navigate('LunchPage');
+  };
   return (
     <View style={{ flex: 1 }}>
       <Header
@@ -90,6 +97,9 @@ const BreakfastPage = () => {
 
         <TouchableOpacity onPress={openAlternative} style={styles.alternativeButton}>
           <Text style={styles.alternativeButtonText}>Alternative Options</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('LunchPage')} style={{ alignItems: 'center', margin: 20 }}>
+          <Text style={{ fontSize: 18, color: 'blue' }}>Next</Text>
         </TouchableOpacity>
       </ScrollView>
 

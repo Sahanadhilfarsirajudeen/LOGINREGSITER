@@ -3,6 +3,7 @@ import Welcome from "./Welcome";
 import Signup from "./Signup";
 import HomePage from "./HomePage";
 import BreakfastPage from "./BreakfastPage";
+import LunchPage from "./LunchPage";
 
 
 export {
@@ -10,5 +11,6 @@ export {
     Welcome,
     Signup,
     HomePage,
-    BreakfastPage
+    BreakfastPage,
+    LunchPage,
 }
