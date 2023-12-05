@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Login, Signup, Welcome, HomePage, BreakfastPage, LunchPage} from './screens';
+import { Login, Signup, Welcome, HomePage, BreakfastPage, LunchPage, FirstPage, TermsAndConditions} from './screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -48,6 +48,21 @@ const App = () => {
         <Stack.Screen
           name="LunchPage"
           component={LunchPage}
+          options={{
+            headerShown: false,
+          }}
+          
+        />
+        <Stack.Screen
+          name="FirstPage"
+          component={FirstPage}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="TermsAndConditions"
+          component={TermsAndConditions}
           options={{
             headerShown: false,
           }}

@@ -98,7 +98,7 @@ const BreakfastPage = () => {
         <TouchableOpacity onPress={openAlternative} style={styles.alternativeButton}>
           <Text style={styles.alternativeButtonText}>Alternative Options</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('LunchPage')} style={{ alignItems: 'center', margin: 20 }}>
+        <TouchableOpacity onPress={() => navigation.navigate('FirstPage')} style={{ alignItems: 'center', margin: 20 }}>
           <Text style={{ fontSize: 18, color: 'blue' }}>Next</Text>
         </TouchableOpacity>
       </ScrollView>
