@@ -6,6 +6,8 @@ import BreakfastPage from "./BreakfastPage";
 import LunchPage from "./LunchPage";
 import FirstPage from "./FirstPage";
 import TermsAndConditions from "./TermsAndConditions";
+import Dinner from "./Dinner";
+
 
 
 export {
@@ -17,4 +19,5 @@ export {
     LunchPage,
     FirstPage,
     TermsAndConditions,
+    Dinner,
 }

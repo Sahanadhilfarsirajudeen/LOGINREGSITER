@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Login, Signup, Welcome, HomePage, BreakfastPage, LunchPage, FirstPage, TermsAndConditions} from './screens';
+import { Login, Signup, Welcome, HomePage, BreakfastPage, LunchPage, FirstPage, TermsAndConditions, Dinner } from './screens'; 
 
 const Stack = createNativeStackNavigator();
 
@@ -50,12 +50,18 @@ const App = () => {
           component={LunchPage}
           options={{
             headerShown: false,
-          }}
-          
+          }} 
         />
         <Stack.Screen
           name="FirstPage"
           component={FirstPage}
+          options={{
+            headerShown: false,
+          }}
+        />
+         <Stack.Screen
+          name="Dinner"
+          component={Dinner}
           options={{
             headerShown: false,
           }}
@@ -66,7 +72,7 @@ const App = () => {
           options={{
             headerShown: false,
           }}
-        />
+        />   
       </Stack.Navigator>
       <View style={{ flex: 1 }}>
         <StatusBar barStyle="dark-content" />
