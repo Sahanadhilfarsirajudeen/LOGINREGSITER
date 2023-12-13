@@ -19,13 +19,11 @@ const FirstPage = ({ isVisible, onClose }) => {
 
   // State to keep track of selected items for each day
   const [selectedItems, setSelectedItems] = useState({});
-  const [selectedDay, setSelectedDay] = useState(null); // Add this line
+  const [selectedDay, setSelectedDay] = useState(null);
 
   const toggleItemSelection = (meal) => {
-    // Copy the current selected items
     const updatedSelectedItems = { ...selectedItems };
 
-    // Toggle the selection for the given meal and day
     if (updatedSelectedItems[selectedDay]) {
       if (updatedSelectedItems[selectedDay].includes(meal)) {
         updatedSelectedItems[selectedDay] = updatedSelectedItems[selectedDay].filter((item) => item !== meal);
@@ -39,8 +37,8 @@ const FirstPage = ({ isVisible, onClose }) => {
     setSelectedItems(updatedSelectedItems);
   };
   
-  const navigateToDinner = () => {
-    navigation.navigate('Dinner');
+  const navigateToNextPage = () => {
+    navigation.navigate('NextPage');
   };
 
   return (
@@ -75,10 +73,9 @@ const FirstPage = ({ isVisible, onClose }) => {
                 </TouchableOpacity>
               ))}
 
-<TouchableOpacity style={styles.nextButton} onPress={navigateToDinner}>
-  <Text style={styles.buttonText}>Next</Text>
-</TouchableOpacity>
-
+              <TouchableOpacity style={styles.nextButton} onPress={navigateToNextPage}>
+                <Text style={styles.buttonText}>Next</Text>
+              </TouchableOpacity>
             </View>
           </ImageBackground>
         </View>

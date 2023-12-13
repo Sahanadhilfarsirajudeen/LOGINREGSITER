@@ -1,22 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const Dinner = () => {
+const Dinner = ({ route }) => {
   const navigation = useNavigation();
 
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
+  // Initialize state to keep track of selected items for each day
+  const [selectedItemsByDay, setSelectedItemsByDay] = useState({
+    Monday: [],
+    Tuesday: [],
+    Wednesday: [],
+    Thursday: [],
+    Friday: [],
+    Saturday: [],
+    Sunday: [],
+  });
+
+  // Function to navigate to the next page with accumulated selected items
   const navigateToBreakfastPage = () => {
-    navigation.navigate('BreakfastPage');
+    const selectedItems = Object.values(selectedItemsByDay).flatMap((items) => items);
+    navigation.navigate('BreakfastPage', { selectedItems });
   };
-  
+
+  // Function to update selected items for a specific day
+  const handleDayPress = (day) => {
+    navigation.navigate('MenuSelection', {
+      selectedItemsByDay,
+      selectedDay: day,
+      updateSelectedItems: (selectedItems) => {
+        //setSelectedItemsByDay((prevSelectedItems) => ({
+         // ...prevSelectedItems,
+          //[day]: selectedItems,
+        //}
+        //)
+        //);
+      },
+    });
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Day Meal</Text>
       {daysOfWeek.map((day, index) => (
-        <TouchableOpacity key={index} style={styles.dayButton} onPress={navigateToBreakfastPage}>
+        <TouchableOpacity
+          key={index}
+          style={styles.dayButton}
+          onPress={() => handleDayPress(day)}
+        >
           <Text style={styles.dayButtonText}>{day}</Text>
+          {selectedItemsByDay[day].length > 0 && (
+            <Text style={styles.selectedItemsText}>
+              {selectedItemsByDay[day].join(', ')}
+            </Text>
+          )}
         </TouchableOpacity>
       ))}
 

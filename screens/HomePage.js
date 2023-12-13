@@ -4,7 +4,6 @@ import { Header, Icon, Overlay } from 'react-native-elements';
 import CustomHeader from './CustomHeader';
 import { useNavigation } from '@react-navigation/native';
 
-
 function getCurrentDateAndDay() {
   const currentDate = new Date();
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -12,8 +11,6 @@ function getCurrentDateAndDay() {
 }
 
 const HomePage = () => {
-
-    
   const [selectedBreakfastCategory, setSelectedBreakfastCategory] = useState(null);
   const [selectedSnacksCategory, setSelectedSnacksCategory] = useState(null);
   const [selectedLunchCategory, setSelectedLunchCategory] = useState(null);
@@ -21,9 +18,6 @@ const HomePage = () => {
   const [selectedDinnerCategory, setSelectedDinnerCategory] = useState(null);
 
   const [isDagensMenuVisible, setDagensMenuVisible] = useState(false);
-  const [isWeekPlaneringVisible, setWeekPlaneringVisible] = useState(false);
-  const [isShoppingListVisible, setShoppingListVisible] = useState(false);
-  const [isSettingsVisible, setSettingsVisible] = useState(false);
 
   const [isSubMenuVisible, setSubMenuVisible] = useState(false);
   const [selectedDagensMenuItem, setSelectedDagensMenuItem] = useState(null);
@@ -44,13 +38,15 @@ const HomePage = () => {
     'Chickpea pancakes with jam',
     'Some vegetables',
   ];
-  const snacksCategories = ['A piece of fruit (150 g)', 
-  'Unsalted nuts (walnuts, almonds, etc.) (30 g)',
-   'A jar of sugar-free plain yogurt (125 g) with a spoonful of berries',
-   'Lupins (30 g)',
-   'A cup of tea with milk (regular or vegetal)',
-   'A hard-boiled egg',
-   'A glass of unsweetened vegetal milk',
+
+  const snacksCategories = [
+    'A piece of fruit (150 g)',
+    'Unsalted nuts (walnuts, almonds, etc.) (30 g)',
+    'A jar of sugar-free plain yogurt (125 g) with a spoonful of berries',
+    'Lupins (30 g)',
+    'A cup of tea with milk (regular or vegetal)',
+    'A hard-boiled egg',
+    'A glass of unsweetened vegetal milk',
   ];
 
   const lunchCategories = ['Lunch Option 1', 'Lunch Option 2', 'Lunch Option 3'];
@@ -65,36 +61,24 @@ const HomePage = () => {
     }
   };
 
-  const toggleWeekPlanering = () => {
-    setWeekPlaneringVisible(!isWeekPlaneringVisible);
-    // Ensure the submenu is closed when toggling Dagens Menu.
-    if (isWeekPlaneringVisible) {
-      toggleWeekPlaneringSubMenu();
-    }
-  };
-  const toggleShoppingList = () => setShoppingListVisible(!isShoppingListVisible);
-  const toggleSettings = () => setSettingsVisible(!isSettingsVisible);
-
   const toggleSubMenu = () => setSubMenuVisible(!isSubMenuVisible);
-  const toggleWeekPlaneringSubMenu = () => setWeekPlaneringVisible(!isWeekPlaneringVisible);
+
   const dateAndDay = getCurrentDateAndDay();
 
   const navigateToPreviousPage = () => {
-    // Implement navigation to the previous page here
     navigation.navigate('Welcome');
   };
 
   const navigateToNextPage = () => {
-    // Implement navigation to the next page here
     navigation.navigate('BreakfastPage');
+  };
+
+  const navigateToMenuSelection = () => {
+    navigation.navigate('MenuSelection');
   };
 
   const dagensMenuItems = ['Dagens Menu'];
   const subMenuItems = ['Breakfast', 'Snacks1', 'Lunch', 'Snacks2', 'Dinner'];
-
-  const WeekPlaneringMenuItems = ['Week Planering'];
-  const WeekPlaneringsubMenuItems = ['Monday', 'Sunday'];
-
 
   return (
     <View style={{ flex: 1 }}>
@@ -102,10 +86,8 @@ const HomePage = () => {
         leftComponent={
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <TouchableOpacity onPress={toggleDagensMenu}>
-
               <Icon name="menu" color="white" />
             </TouchableOpacity>
-
             <TouchableOpacity onPress={navigateToPreviousPage}>
               <Icon name="arrow-back" color="white" />
             </TouchableOpacity>
@@ -170,11 +152,11 @@ const HomePage = () => {
             <Picker.Item label={category} value={category} key={index} />
           ))}
         </Picker>
-        <TouchableOpacity onPress={() => navigation.navigate('BreakfastPage')} style={{ alignItems: 'center', margin: 20 }}>
-          <Text style={{ fontSize: 18, color: 'blue' }}>Next</Text>
+        <TouchableOpacity onPress={navigateToMenuSelection} style={{ alignItems: 'center', margin: 20 }}>
+          <Text style={{ fontSize: 18, color: 'blue' }}>Go to Menu Selection</Text>
         </TouchableOpacity>
       </ScrollView>
-      
+
       {isDagensMenuVisible && (
         <Overlay
           isVisible={isDagensMenuVisible}
@@ -207,7 +189,6 @@ const HomePage = () => {
                 </TouchableOpacity>
               ))
             }
-            
           </View>
         </Overlay>
       )}

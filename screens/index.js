@@ -7,8 +7,8 @@ import LunchPage from "./LunchPage";
 import FirstPage from "./FirstPage";
 import TermsAndConditions from "./TermsAndConditions";
 import Dinner from "./Dinner";
-
-
+import NextPage from "./NextPage";
+import MenuSelection from "./MenuSelection";
 
 export {
     Login,
@@ -20,4 +20,6 @@ export {
     FirstPage,
     TermsAndConditions,
     Dinner,
+    NextPage,
+    MenuSelection,
 }
