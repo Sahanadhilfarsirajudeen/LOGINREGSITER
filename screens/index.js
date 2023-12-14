@@ -3,7 +3,7 @@ import Welcome from "./Welcome";
 import Signup from "./Signup";
 import HomePage from "./HomePage";
 import BreakfastPage from "./BreakfastPage";
-import LunchPage from "./LunchPage";
+import WeekPlanning from "./WeekPlanning";
 import FirstPage from "./FirstPage";
 import TermsAndConditions from "./TermsAndConditions";
 import Dinner from "./Dinner";
@@ -16,7 +16,7 @@ export {
     Signup,
     HomePage,
     BreakfastPage,
-    LunchPage,
+    WeekPlanning,
     FirstPage,
     TermsAndConditions,
     Dinner,

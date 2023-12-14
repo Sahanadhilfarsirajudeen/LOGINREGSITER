@@ -76,7 +76,9 @@ const HomePage = () => {
   const navigateToMenuSelection = () => {
     navigation.navigate('MenuSelection');
   };
-
+  const navigateToWeekPlanning = () => {
+    navigation.navigate('WeekPlanning');
+  };
   const dagensMenuItems = ['Dagens Menu'];
   const subMenuItems = ['Breakfast', 'Snacks1', 'Lunch', 'Snacks2', 'Dinner'];
 
@@ -154,6 +156,10 @@ const HomePage = () => {
         </Picker>
         <TouchableOpacity onPress={navigateToMenuSelection} style={{ alignItems: 'center', margin: 20 }}>
           <Text style={{ fontSize: 18, color: 'blue' }}>Go to Menu Selection</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={navigateToWeekPlanning} style={{ alignItems: 'center', margin: 20 }}>
+          <Text style={{ fontSize: 18, color: 'blue' }}>Go to WeekPlanning</Text>
         </TouchableOpacity>
       </ScrollView>
 

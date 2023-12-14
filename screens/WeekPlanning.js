@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Modal, TouchableWithoutFeedback } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
 
-const LunchPage = ({ isVisible, onClose }) => {
+const WeekPlanning = ({ isVisible, onClose }) => {
   const weekPlan = [
     {
       day: 'Monday',
@@ -181,4 +181,4 @@ const styles = StyleSheet.create({
   text: { margin: 6, textAlign: 'center' },
 });
 
-export default LunchPage;
+export default WeekPlanning;
