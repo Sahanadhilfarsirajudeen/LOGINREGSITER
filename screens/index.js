@@ -6,10 +6,11 @@ import BreakfastPage from "./BreakfastPage";
 import WeekPlanning from "./WeekPlanning";
 import FirstPage from "./FirstPage";
 import TermsAndConditions from "./TermsAndConditions";
-import Dinner from "./Dinner";
+import Day from "./Day";
 import NextPage from "./NextPage";
 import MenuSelection from "./MenuSelection";
-
+import MorningSnacksPage from "./MorningSnacksPage";
+import AfternoonSnacksPage from "./AfternoonSnacksPage";
 export {
     Login,
     Welcome,
@@ -19,7 +20,9 @@ export {
     WeekPlanning,
     FirstPage,
     TermsAndConditions,
-    Dinner,
+    Day,
     NextPage,
     MenuSelection,
+    MorningSnacksPage,
+    AfternoonSnacksPage,
 }

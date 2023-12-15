@@ -2,7 +2,8 @@ import React from 'react';
 import { View, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Login, Signup, Welcome, HomePage, BreakfastPage, WeekPlanning, FirstPage, TermsAndConditions, Dinner, NextPage, MenuSelection } from './screens'; 
+import { Login, Signup, Welcome, HomePage, BreakfastPage, WeekPlanning, FirstPage, TermsAndConditions, Day, NextPage, MenuSelection, MorningSnacksPage } from './screens'; 
+import AfternoonSnacksPage from './screens/AfternoonSnacksPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -60,8 +61,8 @@ const App = () => {
           }}
         />
          <Stack.Screen
-          name="Dinner"
-          component={Dinner}
+          name="Day"
+          component={Day}
           options={{
             headerShown: false,
           }}
@@ -86,7 +87,21 @@ const App = () => {
           options={{
             headerShown: false,
           }}
+        /> 
+         <Stack.Screen
+          name="MorningSnacksPage"
+          component={MorningSnacksPage}
+          options={{
+            headerShown: false,
+          }}
         />  
+        <Stack.Screen
+          name="AfternoonSnacksPage"
+          component={AfternoonSnacksPage}
+          options={{
+            headerShown: false,
+          }}
+        /> 
       </Stack.Navigator>
       <View style={{ flex: 1 }}>
         <StatusBar barStyle="dark-content" />

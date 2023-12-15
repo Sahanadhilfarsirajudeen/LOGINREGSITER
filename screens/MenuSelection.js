@@ -20,8 +20,8 @@ const MenuSelection = () => {
     }));
   };
 
-  const navigateToDinner = () => {
-    navigation.navigate('Dinner', { selectedItems }); // Pass selectedItems as navigation param
+  const navigateToDay = () => {
+    navigation.navigate('Day', { selectedItems }); // Pass selectedItems as navigation param
   };
 
   return (
@@ -40,8 +40,8 @@ const MenuSelection = () => {
         </View>
       ))}
 
-      <TouchableOpacity style={styles.button} onPress={navigateToDinner}>
-        <Text style={styles.buttonText}>Go to Dinner Page</Text>
+      <TouchableOpacity style={styles.button} onPress={navigateToDay}>
+        <Text style={styles.buttonText}>Go to Day Page</Text>
       </TouchableOpacity>
     </View>
   );
@@ -91,4 +91,3 @@ const styles = StyleSheet.create({
 });
 
 export default MenuSelection;
-

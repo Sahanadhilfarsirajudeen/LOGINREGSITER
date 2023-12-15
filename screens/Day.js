@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const Dinner = ({ route }) => {
+const Day = ({ route }) => {
   const navigation = useNavigation();
 
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -104,4 +104,4 @@ const styles = StyleSheet.create({
  },
 });
 
-export default Dinner;
+export default Day;

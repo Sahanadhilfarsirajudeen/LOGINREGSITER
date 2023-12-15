@@ -79,6 +79,12 @@ const HomePage = () => {
   const navigateToWeekPlanning = () => {
     navigation.navigate('WeekPlanning');
   };
+  const navigateToMorningSnacksPage = () => {
+    navigation.navigate('MorningSnacksPage');
+  };
+  const navigateToAfternoonSnacksPage = () => {
+    navigation.navigate('AfternoonSnacksPage');
+  };
   const dagensMenuItems = ['Dagens Menu'];
   const subMenuItems = ['Breakfast', 'Snacks1', 'Lunch', 'Snacks2', 'Dinner'];
 
@@ -155,11 +161,18 @@ const HomePage = () => {
           ))}
         </Picker>
         <TouchableOpacity onPress={navigateToMenuSelection} style={{ alignItems: 'center', margin: 20 }}>
-          <Text style={{ fontSize: 18, color: 'blue' }}>Go to Menu Selection</Text>
+          <Text style={{ fontSize: 18, color: 'blue' }}>Go to MenuSelection</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={navigateToWeekPlanning} style={{ alignItems: 'center', margin: 20 }}>
           <Text style={{ fontSize: 18, color: 'blue' }}>Go to WeekPlanning</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={navigateToMorningSnacksPage} style={{ alignItems: 'center', margin: 20 }}>
+          <Text style={{ fontSize: 18, color: 'blue' }}>Go to MorningSnacksPage</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={navigateToAfternoonSnacksPage} style={{ alignItems: 'center', margin: 20 }}>
+          <Text style={{ fontSize: 18, color: 'blue' }}>Go to AfternoonSnacksPage</Text>
         </TouchableOpacity>
       </ScrollView>
 
