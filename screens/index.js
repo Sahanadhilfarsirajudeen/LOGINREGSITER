@@ -11,6 +11,8 @@ import NextPage from "./NextPage";
 import MenuSelection from "./MenuSelection";
 import MorningSnacksPage from "./MorningSnacksPage";
 import AfternoonSnacksPage from "./AfternoonSnacksPage";
+import DinnerPage from "./DinnerPage";
+
 export {
     Login,
     Welcome,
@@ -25,4 +27,5 @@ export {
     MenuSelection,
     MorningSnacksPage,
     AfternoonSnacksPage,
+    DinnerPage,
 }

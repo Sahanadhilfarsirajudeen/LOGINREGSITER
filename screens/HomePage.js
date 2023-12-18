@@ -85,6 +85,9 @@ const HomePage = () => {
   const navigateToAfternoonSnacksPage = () => {
     navigation.navigate('AfternoonSnacksPage');
   };
+  const navigateToDinnerPage = () => {
+    navigation.navigate('DinnerPage');
+  };
   const dagensMenuItems = ['Dagens Menu'];
   const subMenuItems = ['Breakfast', 'Snacks1', 'Lunch', 'Snacks2', 'Dinner'];
 
@@ -173,6 +176,10 @@ const HomePage = () => {
 
         <TouchableOpacity onPress={navigateToAfternoonSnacksPage} style={{ alignItems: 'center', margin: 20 }}>
           <Text style={{ fontSize: 18, color: 'blue' }}>Go to AfternoonSnacksPage</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={navigateToDinnerPage} style={{ alignItems: 'center', margin: 20 }}>
+          <Text style={{ fontSize: 18, color: 'blue' }}>Go to DinnerPage</Text>
         </TouchableOpacity>
       </ScrollView>
 

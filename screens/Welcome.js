@@ -52,7 +52,7 @@ const Welcome = ({ navigation }) => {
                         source={require("../assets/fooddietthirdpics.jpg")}
                         style={{
                             width: 100,
-                            height: 100,
+                            height: 200,
                             borderRadius: 20,
                             position: "absolute",
                             top: 130,
@@ -66,7 +66,7 @@ const Welcome = ({ navigation }) => {
                     />
 
                     <Image
-                        source={require("../assets/fooddietfourthpics.jpg")}
+                        source={require("../assets/snacks.jpg")}
                         style={{
                             height: 200,
                             width: 200,

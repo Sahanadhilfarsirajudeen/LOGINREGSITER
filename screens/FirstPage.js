@@ -42,23 +42,29 @@ const FirstPage = ({ isVisible, onClose }) => {
   };
 
   const navigateToItemPage = (item) => {
+    console.log('Navigating to:', item);
+  
     // Implement navigation to the specific page for the selected item
     switch (item) {
       case 'Breakfast':
         navigation.navigate('BreakfastPage');
         break;
-        case 'Lunch':
-        navigation.navigate('HomePage');
+        case 'Dinner':
+        navigation.navigate('DinnerPage');
         break;
       case 'Morning Snacks':
         navigation.navigate('MorningSnacksPage');
         break;
-      // Add cases for other items
+      case 'Afternoon Snacks':
+        navigation.navigate('AfternoonSnacksPage');
+        break;
       default:
+        console.log('Item not handled:', item);
         // Do nothing or navigate to a default page
         break;
     }
   };
+  
 
   return (
     <Modal visible={isVisible} transparent animationType="slide">
