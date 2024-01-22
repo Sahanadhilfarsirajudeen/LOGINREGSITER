@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 
-const DinnerPage = () => {
+ const DinnerPage = () => {
   const handleChangeDish = () => {
     // Handle the action when the user clicks "Change the Dish"
     // You can implement logic to change the dish or navigate to another page.
