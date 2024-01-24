@@ -1,28 +1,47 @@
 import React, { useState } from 'react';
-import { View, Text, Image, Pressable, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import COLORS from '../constants/colors';
-import { Ionicons } from '@expo/vector-icons';
-import Checkbox from 'expo-checkbox';
-import Button from '../components/Button';
-import TermsAndConditions from './TermsAndConditions';
-import axios from 'axios'; // Import Axios
+import axios from 'axios';
+import Toast from 'react-native-toast-message';
 
 const Signup = ({ navigation }) => {
-  const [isPasswordShown, setIsPasswordShown] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
-  const [email, setEmail] = useState('');
   const [idNumber, setIdNumber] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
-  const handleTermsLinkPress = () => {
-    navigation.navigate('TermsAndConditions');
+  const showToast = (type, text1, text2) => {
+    Toast.show({
+      type: type,
+      text1: text1,
+      text2: text2,
+      position: 'bottom',
+    });
   };
 
   const handleSignUp = async () => {
+    // Reset error messages
+    setEmailError('');
+    setPasswordError('');
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setEmailError('Invalid email format');
+      return;
+    }
+
+    // Validate password complexity
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      setPasswordError('Password must be 8 characters, contain atleast 2 numbers, and have 1 special character');
+      return;
+    }
+
     try {
       const userData = {
-        
         IDnumber: idNumber,
         username: email,
         password: password,
@@ -30,14 +49,20 @@ const Signup = ({ navigation }) => {
 
       console.log('SignUp Payload:', userData);
 
-      // Adjust the API endpoint based on your backend
       const response = await axios.post('http://localhost:3000/auth/register', userData);
 
       console.log('User registration successful:', response.data);
-      // Add navigation or other logic as needed
+
+      // Show success message
+      showToast('success', 'Registration Successful', 'You have successfully registered. Now you can log in.');
+
+      // Navigate to the login screen or any other action needed
+      navigation.navigate('Login');
     } catch (error) {
       console.error('Error signing up:', error);
-      // Handle error appropriately
+
+      // Show error message
+      showToast('error', 'Registration Failed', 'There was an error during registration. Please try again.');
     }
   };
 
@@ -45,16 +70,18 @@ const Signup = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <View style={{ flex: 1, marginHorizontal: 22 }}>
         <View style={{ marginVertical: 22 }}>
-          <Text style={{ fontSize: 22, fontWeight: 'bold', marginVertical: 12, color: COLORS.black }}>
+          <Text style={{ fontSize: 22, fontWeight: 'bold',
+marginVertical: 12, color: COLORS.black }}>
             Create Account
           </Text>
 
-          <Text style={{ fontSize: 16, color: COLORS.black }}>Connect with your friend today!</Text>
+          <Text style={{ fontSize: 16, color: COLORS.black }}>Connect
+with your friend today!</Text>
         </View>
 
-
         <View style={{ marginBottom: 12 }}>
-          <Text style={{ fontSize: 16, fontWeight: '400', marginVertical: 8 }}>IDnumber</Text>
+          <Text style={{ fontSize: 16, fontWeight: '400',
+marginVertical: 8 }}>IDnumber</Text>
 
           <View
             style={{
@@ -69,21 +96,21 @@ const Signup = ({ navigation }) => {
             }}
           >
             <TextInput
-                   placeholder="Enter your ID number"
-                   placeholderTextColor={COLORS.black}
-                   keyboardType="numeric"
-                   style={{
-                   width: '80%',
-                          }}
-                   value={idNumber}
-                   onChangeText={(text) => setIdNumber(text)}
-/>
-
+              placeholder="Enter your ID number"
+              placeholderTextColor={COLORS.black}
+              keyboardType="numeric"
+              style={{
+                width: '80%',
+              }}
+              value={idNumber}
+              onChangeText={(text) => setIdNumber(text)}
+            />
           </View>
         </View>
 
         <View style={{ marginBottom: 12 }}>
-          <Text style={{ fontSize: 16, fontWeight: '400', marginVertical: 8 }}>Username</Text>
+          <Text style={{ fontSize: 16, fontWeight: '400',
+marginVertical: 8 }}>Username</Text>
 
           <View
             style={{
@@ -100,18 +127,25 @@ const Signup = ({ navigation }) => {
             <TextInput
               placeholder="Username"
               placeholderTextColor={COLORS.black}
-              keyboardType="username"
+              keyboardType="email-address"
               style={{
                 width: '100%',
               }}
               value={email}
-              onChangeText={(text) => setEmail(text)}
+              onChangeText={(text) => {
+                setEmail(text);
+                setEmailError('');
+              }}
             />
           </View>
+          {emailError ? (
+            <Text style={{ color: COLORS.error, fontSize: 12 }}>{emailError}</Text>
+          ) : null}
         </View>
 
         <View style={{ marginBottom: 12 }}>
-          <Text style={{ fontSize: 16, fontWeight: '400', marginVertical: 8 }}>Password</Text>
+          <Text style={{ fontSize: 16, fontWeight: '400',
+marginVertical: 8 }}>Password</Text>
 
           <View
             style={{
@@ -126,31 +160,39 @@ const Signup = ({ navigation }) => {
             }}
           >
             <TextInput
-                placeholder="Password"
-                placeholderTextColor={COLORS.black}
-                secureTextEntry={isPasswordShown}
-                style={{
-                 width: '100%',
-                          }}
-                value={password}
-                onChangeText={(text) => setPassword(text)}
-/>
-
+              placeholder="Password"
+              placeholderTextColor={COLORS.black}
+              secureTextEntry={true}
+              style={{
+                width: '100%',
+              }}
+              value={password}
+              onChangeText={(text) => {
+                setPassword(text);
+                setPasswordError('');
+              }}
+            />
           </View>
+          {passwordError ? (
+            <Text style={{ color: COLORS.error, fontSize: 12 }}>{passwordError}</Text>
+          ) : null}
         </View>
 
-        {/* ... (Similar modifications for ID Number and Password fields) */}
-
-        <Button
-          title="Sign Up"
-          filled
+        <TouchableOpacity
           onPress={handleSignUp}
           style={{
-            marginTop: 18,
-            marginBottom: 4,
+            width: '100%',
+            height: 48,
+            backgroundColor: COLORS.primary,
+            borderRadius: 8,
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
-        />
-         <View style={{ flexDirection: 'row', alignItems: 'center',
+        >
+          <Text style={{ color: COLORS.white, fontWeight: 'bold'}}>Sign Up</Text>
+        </TouchableOpacity>
+
+        <View style={{ flexDirection: 'row', alignItems: 'center',
 marginVertical: 20 }}>
           <View
             style={{
@@ -171,81 +213,7 @@ marginVertical: 20 }}>
           />
         </View>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-          <TouchableOpacity
-            onPress={() => console.log('Pressed')}
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'row',
-              height: 52,
-              borderWidth: 1,
-              borderColor: COLORS.grey,
-              marginRight: 4,
-              borderRadius: 10,
-            }}
-          >
-            <Image
-              source={require('../assets/facebook.png')}
-              style={{
-                height: 36,
-                width: 36,
-                marginRight: 8,
-              }}
-              resizeMode="contain"
-            />
-
-            <Text>Facebook</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => console.log('Pressed')}
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'row',
-              height: 52,
-              borderWidth: 1,
-              borderColor: COLORS.grey,
-              marginRight: 4,
-              borderRadius: 10,
-            }}
-          >
-            <Image
-              source={require('../assets/google.png')}
-              style={{
-                height: 36,
-                width: 36,
-                marginRight: 8,
-              }}
-              resizeMode="contain"
-            />
-
-            <Text>Google</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={{ flexDirection: 'row', justifyContent: 'center',
-marginVertical: 22 }}>
-          <Text style={{ fontSize: 16, color: COLORS.black }}>Already
-have an account</Text>
-          <Pressable onPress={() => navigation.navigate('Login')}>
-            <Text
-              style={{
-                fontSize: 16,
-                color: COLORS.primary,
-                fontWeight: 'bold',
-                marginLeft: 6,
-              }}
-            >
-              Login
-            </Text>
-          </Pressable>
-        </View>
-
-        {/* ... (Existing code) */}
+        {/* ... (unchanged code) */}
       </View>
     </SafeAreaView>
   );
