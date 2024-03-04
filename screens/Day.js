@@ -5,60 +5,61 @@ import { useNavigation } from '@react-navigation/native';
 const Day = ({ route }) => {
   const navigation = useNavigation();
 
-  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  const meals = [
+    'Breakfast',
+    'Morning Snack',
+    'Lunch',
+    'Afternoon Snack',
+    'Dinner',
+    'Evening Snack',
+  ];
 
-  // Initialize state to keep track of selected items for each day
-  const [selectedItemsByDay, setSelectedItemsByDay] = useState({
-    Monday: [],
-    Tuesday: [],
-    Wednesday: [],
-    Thursday: [],
-    Friday: [],
-    Saturday: [],
-    Sunday: [],
+  // Initialize state to keep track of selected items for each meal
+  const [selectedItemsByMeal, setSelectedItemsByMeal] = useState({
+    Breakfast: false,
+    'Morning Snack': false,
+    Lunch: false,
+    'Afternoon Snack': false,
+    Dinner: false,
+    'Evening Snack': false,
   });
 
   // Function to navigate to the next page with accumulated selected items
-  const navigateToBreakfastPage = () => {
-    const selectedItems = Object.values(selectedItemsByDay).flatMap((items) => items);
-    navigation.navigate('BreakfastPage', { selectedItems });
+  const navigateToHomePage = () => {
+    const selectedItems = Object.entries(selectedItemsByMeal)
+      .filter(([_, isSelected]) => isSelected)
+      .map(([meal]) => meal);
+
+    navigation.navigate('HomePage', { selectedItems });
   };
 
-  // Function to update selected items for a specific day
-  const handleDayPress = (day) => {
-    navigation.navigate('MenuSelection', {
-      selectedItemsByDay,
-      selectedDay: day,
-      updateSelectedItems: (selectedItems) => {
-        //setSelectedItemsByDay((prevSelectedItems) => ({
-         // ...prevSelectedItems,
-          //[day]: selectedItems,
-        //}
-        //)
-        //);
-      },
-    });
+  // Function to update selected items for a specific meal
+  const handleMealButtonPress = (meal) => {
+    setSelectedItemsByMeal((prevSelectedItems) => ({
+      ...prevSelectedItems,
+      [meal]: !prevSelectedItems[meal],
+    }));
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Day Meal</Text>
-      {daysOfWeek.map((day, index) => (
+      <Text style={styles.title}>Which meals do you usually have?</Text>
+      <Text style={styles.subtitle}>Select the meals you have</Text>
+
+      {meals.map((meal, index) => (
         <TouchableOpacity
           key={index}
-          style={styles.dayButton}
-          onPress={() => handleDayPress(day)}
+          style={[
+            styles.mealButton,
+            { backgroundColor: selectedItemsByMeal[meal] ? 'blue' : 'transparent' },
+          ]}
+          onPress={() => handleMealButtonPress(meal)}
         >
-          <Text style={styles.dayButtonText}>{day}</Text>
-          {selectedItemsByDay[day].length > 0 && (
-            <Text style={styles.selectedItemsText}>
-              {selectedItemsByDay[day].join(', ')}
-            </Text>
-          )}
+          <Text style={styles.mealButtonText}>{meal}</Text>
         </TouchableOpacity>
       ))}
 
-      <TouchableOpacity style={styles.nextButton} onPress={navigateToBreakfastPage}>
+      <TouchableOpacity style={styles.nextButton} onPress={navigateToHomePage}>
         <Text style={styles.buttonText}>Next</Text>
       </TouchableOpacity>
     </View>
@@ -75,21 +76,26 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 16,
     marginBottom: 20,
-  }, 
-  dayButton: {
+  },
+  mealButton: {
     width: '80%',
     height: 50,
-    backgroundColor: '#3498db',
+    backgroundColor: 'transparent',
+    borderColor: 'blue',
+    borderWidth: 1,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 10,
   },
-  dayButtonText: {
+  mealButtonText: {
     fontSize: 18,
-    color: 'white',
-    fontWeight: 'bold',
+    color: 'black',
   },
   nextButton: {
     marginTop: 20,
@@ -101,7 +107,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 18,
- },
+  },
 });
 
 export default Day;

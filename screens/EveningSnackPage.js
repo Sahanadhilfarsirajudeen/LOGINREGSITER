@@ -3,13 +3,13 @@ import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet, Animated }
 import { Icon, Overlay } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
-const LunchPage = () => {
+const EveningSnackPage = () => {
   const [isAlternativeVisible, setAlternativeVisible] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
   const navigation = useNavigation();
   const [isMenuVisible, setMenuVisible] = useState(false);
   const [scrollX] = useState(new Animated.Value(0)); // Track scroll position
-
+ 
   const openAlternative = () => setAlternativeVisible(true);
   const closeAlternative = () => setAlternativeVisible(false);
   const openMenu = () => setMenuVisible(true);
@@ -20,13 +20,12 @@ const LunchPage = () => {
     closeMenu(); // Close the menu after navigation
   };
 
-  const lunchIngredients = [
-    'Spaghetti with capers and tomatoes: ',
-    '1.  A bowl of any legumes (see general information)(100g)',
-    '2.  A piece of fruit (two if small)',
-    
+  const eveningsnackIngredients = [
+    'Nuts: ',
+    '1.  Walnuts(25g)',
+    '2.  Almonds(25g)',
+    '3.  Cashews(25g)',
   ];
- 
   const mealOptions = [
     { name: 'Breakfast', onPress: () => handleNavigation('BreakfastPage') },
     { name: 'Morning Snack', onPress: () => handleNavigation('MorningSnacksPage') },
@@ -57,9 +56,9 @@ const LunchPage = () => {
       </TouchableOpacity>
     ));
   };
-
+  
   return (
-    <View style={styles.container}>
+  <View style={styles.container}>
       <View style={styles.dateContainer}>
         <TouchableOpacity onPress={() => handleDateNavigation('yesterday')}>
           <Text style={styles.navigationText}>Yesterday</Text>
@@ -74,14 +73,14 @@ const LunchPage = () => {
         <View style={styles.mealOptionsContainer}>{renderMealOptions()}</View>
       </ScrollView>
 
-      <Text style={styles.title}>Lunch</Text>
+      <Text style={styles.title}>EveningSnack</Text>
 
       <ScrollView>
         <Image source={require("../assets/snacks2.jpg")} style={{ width: 200, height: 200, alignSelf: 'center' }} />
         <View style={styles.contentContainer}>
-          <Text style={styles.title}>Spaghetti with capers and tomatoes</Text>
+          <Text style={styles.title}>Nuts with fruit</Text>
           <View style={styles.ingredientsContainer}>
-            {lunchIngredients.map((ingredient, index) => (
+            {eveningsnackIngredients.map((ingredient, index) => (
               <Text key={index}>{ingredient}</Text>
             ))}
           </View>
@@ -202,4 +201,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LunchPage;
+export default EveningSnackPage;

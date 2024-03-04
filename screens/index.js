@@ -4,14 +4,15 @@ import Signup from "./Signup";
 import HomePage from "./HomePage";
 import BreakfastPage from "./BreakfastPage";
 import WeekPlanning from "./WeekPlanning";
-import FirstPage from "./FirstPage";
 import TermsAndConditions from "./TermsAndConditions";
 import Day from "./Day";
-import NextPage from "./NextPage";
-import MenuSelection from "./MenuSelection";
 import MorningSnacksPage from "./MorningSnacksPage";
 import AfternoonSnacksPage from "./AfternoonSnacksPage";
 import DinnerPage from "./DinnerPage";
+import FeedbackPage from "./FeedbackPage";
+import EveningSnackPage from "./EveningSnackPage";
+import LunchPage from "./LunchPage";
+import PasswordChange from "./PasswordChange";
 
 export {
     Login,
@@ -20,12 +21,13 @@ export {
     HomePage,
     BreakfastPage,
     WeekPlanning,
-    FirstPage,
     TermsAndConditions,
     Day,
-    NextPage,
-    MenuSelection,
     MorningSnacksPage,
     AfternoonSnacksPage,
     DinnerPage,
+    FeedbackPage,
+    EveningSnackPage,
+    LunchPage,
+    PasswordChange,
 }

@@ -1,149 +1,209 @@
 import React, { useState } from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity, Picker, StyleSheet } from 'react-native';
-import { Header, Icon, Overlay } from 'react-native-elements';
-import CustomHeader from './CustomHeader';
+import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet, Animated } from 'react-native';
+import { Icon, Overlay } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
-
-const breakfastIngredients = [
-  'Ingredients for 10-12 muffin: ',
-  '1.  200 g of vegetables (courgettes, peppers, aubergines, etc.)',
-  '2.  180 g of wheat flour',
-  '3.  Three eggs',
-  '4.  100 ml of milk',
-  '5.  100 ml of extra virgin olive oil',
-  '6.  50 g of grated Parmigiano Reggiano',
-  '7.  Onion',
-  '8.  One sachet of yeast for pies',
-  '9.  Salt',
-  '10. Pepper',
-  // Add more ingredients
-];
-
-const breakfastRecipes = [
-  'Recipe Option 1',
-  'Recipe Option 2',
-  'Recipe Option 3',
-  'Recipe Option 4',
-  'Recipe Option 5',
-];
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const BreakfastPage = () => {
-  const [selectedIngredient, setSelectedIngredient] = useState(null);
-  const [selectedRecipe, setSelectedRecipe] = useState(null);
   const [isAlternativeVisible, setAlternativeVisible] = useState(false);
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const navigation = useNavigation();
+  const [isMenuVisible, setMenuVisible] = useState(false);
+  const [scrollX] = useState(new Animated.Value(0)); // Track scroll position
 
   const openAlternative = () => setAlternativeVisible(true);
   const closeAlternative = () => setAlternativeVisible(false);
+  const openMenu = () => setMenuVisible(true);
+  const closeMenu = () => setMenuVisible(false);
 
-  const recipeText = `Slice the vegetables into small cubes, except the peppers, which you will slice into thin strips (similar to sticks). In a non-stick pan, sauté the onion in the oil for a couple of minutes, add the vegetables. Season with salt and pepper and sauté for about 10 minutes. Leave to cool completely. In a bowl, beat the eggs together with the milk and olive oil. Add the grated cheese and the sifted flour. Season with salt and pepper and mix with a spatula. Add the yeast, mix, and add the vegetables, keeping a part of it to decorate the muffins. Divide the mixture into 10-12 greased and floured muffin molds, garnish with the remaining vegetables and bake in the preheated oven at 180°C for about 25 minutes, checking the cooking with a toothpick. Allow cooling completely before serving.`;
-  
-  const navigation = useNavigation();
-
-  const navigateToNextPage = () => {
-    // Implement navigation to the next page here
-    navigation.navigate('LunchPage');
+  const navigateToPage = (page) => {
+    navigation.navigate(page);
+    closeMenu(); // Close the menu after navigation
   };
+
+  const handleLogout = async () => { // Update to async function
+    try {
+      // Remove authentication token from AsyncStorage
+      await AsyncStorage.removeItem('authToken');
+      
+      // Navigate the user to the login page
+      navigation.navigate('Login');
+    } catch (error) {
+      console.error('Error while logging out:', error);
+    }
+  };
+
+  const breakfastIngredients = [
+    'Yoghurt bowl with fruits: ',
+    '1.  Natural yogurt - 1 cup(200g)',
+    '2.  Muesli - 2 spoons(40g)',
+    '3.  Seeds - 1 spoon(20g)',
+    '4.  Fresh fruits - 1 cup(200g)',
+  ];
+
+  const mealOptions = [
+    { name: 'Account Information', onPress: () => navigateToPage('AccountSettingsPage') },
+    { name: 'Meal Plan', onPress: () => navigateToPage('Day') },
+    { name: 'Terms and Conditions', onPress: () => navigateToPage('TermsAndConditions') },
+    { name: 'Logout', onPress: handleLogout },
+  ];
+
+  const handleNavigation = (meal) => {
+    navigation.navigate(meal);
+  };
+
+  const handleDateNavigation = (direction) => {
+    const newDate = new Date(currentDate);
+    if (direction === 'yesterday') {
+      newDate.setDate(currentDate.getDate() - 1);
+    } else if (direction === 'tomorrow') {
+      newDate.setDate(currentDate.getDate() + 1);
+    }
+    setCurrentDate(newDate);
+  };
+
+  const renderMealOptions = () => {
+    return mealOptions.map((option, index) => (
+      <TouchableOpacity key={index} onPress={option.onPress} style={styles.mealOption}>
+        <Text style={styles.mealOptionText}>{option.name}</Text>
+      </TouchableOpacity>
+    ));
+  };
+
   return (
-    <View style={{ flex: 1 }}>
-      <Header
-        leftComponent={
-          <TouchableOpacity onPress={openAlternative}>
-            <Icon name="menu" color="white" />
-          </TouchableOpacity>
-        }
-        centerComponent={<CustomHeader title="Breakfast" />}
-      />
+    <View style={styles.container}>
+      <View style={styles.dateContainer}>
+        <TouchableOpacity onPress={() => handleDateNavigation('yesterday')}>
+          <Text style={styles.navigationText}>Yesterday</Text>
+        </TouchableOpacity>
+        <Text style={styles.dateText}>{currentDate.toDateString()}</Text>
+        <TouchableOpacity onPress={() => handleDateNavigation('tomorrow')}>
+          <Text style={styles.navigationText}>Tomorrow</Text>
+        </TouchableOpacity>
+      </View>
+
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <View style={styles.mealOptionsContainer}>{renderMealOptions()}</View>
+      </ScrollView>
+
+      <Text style={styles.title}>Breakfast</Text>
 
       <ScrollView>
-        <Image
-          source={require("../assets/fooddiet.jpg")}
-          style={{ width: 200, height: 200, alignSelf: 'center' }}
-        />
-
-        <View style={styles.columnsContainer}>
-          <View style={styles.column}>
-            <Text style={styles.heading}>Ingredients</Text>
-            <Picker
-              selectedValue={selectedIngredient}
-              onValueChange={(itemValue) => setSelectedIngredient(itemValue)}
-            >
-              <Picker.Item label="Select an ingredient" value={null} />
-              {breakfastIngredients.map((ingredient, index) => (
-                <Picker.Item label={ingredient} value={ingredient} key={index} />
-              ))}
-            </Picker>
-          </View>
-
-          <View style={styles.column}>
-            <Text style={styles.heading}>Recipe</Text>
-            <Picker
-              selectedValue={selectedRecipe}
-              onValueChange={(itemValue) => setSelectedRecipe(itemValue)}
-            >
-              <Picker.Item label="Select a recipe option" value={null} />
-              {breakfastRecipes.map((recipe, index) => (
-                <Picker.Item label={recipe} value={recipe} key={index} />
-              ))}
-            </Picker>
+        <Image source={require("../assets/snacks2.jpg")} style={{ width: 200, height: 200, alignSelf: 'center' }} />
+        <View style={styles.contentContainer}>
+          <Text style={styles.title}>Yoghurt bowl with fruits</Text>
+          <View style={styles.ingredientsContainer}>
+            {breakfastIngredients.map((ingredient, index) => (
+              <Text key={index}>{ingredient}</Text>
+            ))}
           </View>
         </View>
-
-        {selectedRecipe && (
-          <View style={styles.recipeInstructions}>
-            <Text style={styles.heading}>Recipe Instructions</Text>
-            <Text>{recipeText}</Text>
-          </View>
-        )}
-
-        <TouchableOpacity onPress={openAlternative} style={styles.alternativeButton}>
-          <Text style={styles.alternativeButtonText}>Alternative Options</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('FirstPage')} style={{ alignItems: 'center', margin: 20 }}>
-          <Text style={{ fontSize: 18, color: 'blue' }}>NavforFirstPage</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate('NextPage')} style={{ alignItems: 'center', margin: 20 }}>
-          <Text style={{ fontSize: 18, color: 'blue' }}>NavforNextPage</Text>
+        <TouchableOpacity onPress={openAlternative} style={styles.swipeButton}>
+          <Text style={styles.swipeButtonText}>Swipe to see other options</Text>
         </TouchableOpacity>
       </ScrollView>
 
+      <View style={styles.bottomIconsContainer}>
+        <TouchableOpacity style={styles.iconButton}>
+          <Icon name="settings" size={30} color="black" onPress={openMenu} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.iconButton}>
+          <Icon name="calendar" size={30} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.iconButton}>
+          <Icon name="apple" type="font-awesome-5" size={30} color="black" />
+        </TouchableOpacity>
+      </View>
+
+      <Overlay isVisible={isMenuVisible} onBackdropPress={closeMenu}>
+        <View style={styles.menuContainer}>
+          {renderMealOptions()}
+        </View>
+      </Overlay>
+
       <Overlay isVisible={isAlternativeVisible} onBackdropPress={closeAlternative}>
-        {/* Alternative content goes here */}
         <Text>Alternative Option 1</Text>
         <Text>Alternative Option 2</Text>
         <Text>Alternative Option 3</Text>
-        {/* Add more alternative options */}
       </Overlay>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  columnsContainer: {
+  container: {
+    flex: 1,
+    backgroundColor: '#E0FFFF', // Light blue background color
+  },
+  dateContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 20,
   },
-  column: {
+  dateText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  navigationText: {
+    fontSize: 16,
+    color: 'blue',
+  },
+  mealOptionsContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  mealOption: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 20,
+    backgroundColor: 'lightblue',
+    marginRight: 10,
+  },
+  mealOptionText: {
+    fontSize: 16,
+    color: 'black',
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 10,
+    alignSelf: 'center', // Align title to center
+  },
+  contentContainer: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 10,
   },
-  heading: {
-    fontSize: 18,
-    alignSelf: 'center',
-    marginBottom: 10,
+  ingredientsContainer: {
+    padding: 10,
   },
-  recipeInstructions: {
-    marginBottom: 20,
-  },
-  alternativeButton: {
+  swipeButton: {
     alignItems: 'center',
-    margin: 20,
+    marginVertical: 20,
   },
-  alternativeButtonText: {
+  swipeButtonText: {
     fontSize: 18,
     color: 'blue',
+  },
+  bottomIconsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingVertical: 20,
+  },
+  iconButton: {
+    alignItems: 'center',
+  },
+  menuContainer: {
+    padding: 20,
+  },
+  menuItem: {
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
   },
 });
 
 export default BreakfastPage;
-
