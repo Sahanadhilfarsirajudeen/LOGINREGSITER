@@ -28,9 +28,9 @@ const AfternoonSnacksPage = () => {
   ];
   const mealOptions = [
     { name: 'Breakfast', onPress: () => handleNavigation('BreakfastPage') },
-    { name: 'Morning Snack', onPress: () =>handleNavigation('MorningSnackPage') },
+    { name: 'Morning Snack', onPress: () =>handleNavigation('MorningSnacksPage') },
     { name: 'Lunch', onPress: () => handleNavigation('LunchPage') },
-    { name: 'Afternoon Snack', onPress: () =>handleNavigation('AfternoonSnackPage') },
+    { name: 'Afternoon Snack', onPress: () =>handleNavigation('AfternoonSnacksPage') },
     { name: 'Dinner', onPress: () => handleNavigation('DinnerPage') },
     { name: 'Evening Snack', onPress: () =>handleNavigation('EveningSnackPage') },
   ];

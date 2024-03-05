@@ -27,9 +27,9 @@ const LunchPage = () => {
   ];
   const mealOptions = [
     { name: 'Breakfast', onPress: () => handleNavigation('BreakfastPage') },
-    { name: 'Morning Snack', onPress: () =>handleNavigation('MorningSnackPage') },
+    { name: 'Morning Snack', onPress: () =>handleNavigation('MorningSnacksPage') },
     { name: 'Lunch', onPress: () => handleNavigation('LunchPage') },
-    { name: 'Afternoon Snack', onPress: () =>handleNavigation('AfternoonSnackPage') },
+    { name: 'Afternoon Snack', onPress: () =>handleNavigation('AfternoonSnacksPage') },
     { name: 'Dinner', onPress: () => handleNavigation('DinnerPage') },
     { name: 'Evening Snack', onPress: () =>handleNavigation('EveningSnackPage') },
   ];
@@ -121,7 +121,7 @@ style={styles.mealOption}>
           <TouchableOpacity style={styles.menuItem} onPress={() =>navigateToPage('Signup')}>
             <Text>Account Information</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem} onPress={() => navigateToPage('MealSelectionPage')}>
+          <TouchableOpacity style={styles.menuItem} onPress={() => navigateToPage('Day')}>
             <Text>Meal Plan</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.menuItem} onPress={() =>navigateToPage('TermsAndConditions')}>

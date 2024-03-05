@@ -3,7 +3,7 @@ import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet, Animated }
 import { Icon, Overlay } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
-const MorningSnackPage = () => {
+const MorningSnacksPage = () => {
   const [isAlternativeVisible, setAlternativeVisible] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
   const navigation = useNavigation();
@@ -227,4 +227,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MorningSnackPage;
+export default MorningSnacksPage;
