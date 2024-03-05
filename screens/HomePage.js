@@ -1,56 +1,63 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Image, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-
-function getCurrentDateAndDay() {
-  const currentDate = new Date();
-  const options = { weekday: 'short', day: 'numeric' };
-  return currentDate.toLocaleDateString(undefined, options);
-}
+import { useNavigation, useRoute } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const HomePage = () => {
+  
+  
   const navigation = useNavigation();
-  const [selectedDate, setSelectedDate] = useState(getCurrentDateAndDay());
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedMeal, setSelectedMeal] = useState(null);
 
   const navigateToBreakfastPage = () => {
     navigation.navigate('BreakfastPage');
   };
- 
+
   const navigateToFeedbackPage = () => {
     navigation.navigate('FeedbackPage');
   };
 
+  
+ /* const route = useRoute();
+  const { gender } = route.params; // Retrieve the gender prop passed from Signup
 
-  const daysOfWeek = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  // Your existing code
+  
+  // Function to navigate to the appropriate diet plan page based on gender
+  const navigateToDietPlanPage = () => {
+    if (gender === 'male') {
+      navigation.navigate('Mendietplan');
+    } else if (gender === 'female') {
+      navigation.navigate('Womendietplan');
+    } else {
+      // Handle other genders if needed
+      console.log('Invalid gender specified');
+    }
+  };*/
 
+  
   const getDayWithOffset = (offset) => {
     const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + offset);
-    const options = { weekday: 'short', day: 'numeric' };
-    return currentDate.toLocaleDateString(undefined, options);
+    const targetDate = new Date(selectedDate);
+    targetDate.setDate(selectedDate.getDate() + offset);
+    return targetDate.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric' });
   };
 
-  const handleDateClick = (date) => {
-    setSelectedDate(date);
-    setSelectedMeal(null);
+  const handleDateNavigation = (direction) => {
+    const newDate = new Date(selectedDate);
+    if (direction === 'yesterday') {
+      newDate.setDate(selectedDate.getDate() - 1);
+    } else if (direction === 'tomorrow') {
+      newDate.setDate(selectedDate.getDate() + 1);
+    }
+    setSelectedDate(newDate);
+    // Here you can add logic to navigate to the corresponding date
   };
+  
 
-  const handleYesterdayClick = () => {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    const options = { weekday: 'short', day: 'numeric' };
-    setSelectedDate(yesterday.toLocaleDateString(undefined, options));
-    setSelectedMeal(null);
-  };
-
-  const handleTomorrowClick = () => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    const options = { weekday: 'short', day: 'numeric' };
-    setSelectedDate(tomorrow.toLocaleDateString(undefined, options));
-    setSelectedMeal(null);
-  };
 
   const navigateToMealPage = (meal) => {
     setSelectedMeal(meal);
@@ -78,48 +85,60 @@ const HomePage = () => {
     }
   };
   
-
   const mealItems = [
     {
       name: 'Breakfast',
-      description: 'Yoghurt Bowl\n\nYoghurt - 1 cup (200 grams)\nMuseli - 2 spoons',
+      description: 'Yoghurt Bowl\n\nYoghurt - 1 cup (200grams)\nMuseli - 2 spoons',
       options: 'Read more or see other options ->',
-      image: require('../assets/snacks2.jpg'),
+      image: require('../assets/breakfastdesign.jpg'),
     },
-    { 
+    {
       name: 'Morning Snack',
-      description: 'Fruit Salad\n\nStrawberry - 1 cup (200 grams)\nGrapes - 1 cups', 
-      options: 'Read more or see other options ->', 
-      image: require('../assets/snacks2.jpg'),
-     },
-    { 
-      name: 'Lunch', 
-      description: 'Salmon and Salad\n\nVegetable - (200 grams)\nSalmon - (100 grams)', 
-      options: 'Read more or see other options ->', 
-      image: require('../assets/snacks2.jpg') ,
+      description: 'Fruit Salad\n\nStrawberry - 1 cup (200grams)\nGrapes - 1 cups',
+      options: 'Read more or see other options ->',
+      image: require('../assets/morningsnack.jpg'),
     },
-    { 
-      name: 'Afternoon Snack', 
-      description: 'Kiwi', 
-      options: 'Read more or see other options ->', 
-      image: require('../assets/snacks2.jpg'),
-     },
-    { 
-      name: 'Dinner', 
-      description: 'Meat Fillet with green Pepper', 
-      options: 'Read more or see other options ->', 
-      image: require('../assets/snacks2.jpg'),
-     },
-     { 
-      name: 'Evening Snack', 
-      description: 'Meat Fillet with green Pepper', 
-      options: 'Read more or see other options ->', 
-      image: require('../assets/snacks2.jpg'),
-     },
+    {
+      name: 'Lunch',
+      description: 'Salmon and Salad\n\nVegetable - (200grams)\nSalmon - (100 grams)',
+      options: 'Read more or see other options ->',
+      image: require('../assets/lunch.jpg'),
+    },
+    {
+      name: 'Afternoon Snack',
+      description: 'Kiwi',
+      options: 'Read more or see other options ->',
+      image: require('../assets/nuts.jpg'),
+    },
+    {
+      name: 'Dinner',
+      description: 'Meat Fillet with green Pepper',
+      options: 'Read more or see other options ->',
+      image: require('../assets/dinner.jpg'),
+    },
+    {
+      name: 'Evening Snack',
+      description: 'Meat Fillet with green Pepper',
+      options: 'Read more or see other options ->',
+      image: require('../assets/nuts.jpg'),
+    },
   ];
 
+  const renderWeekDates = () => {
+    const dates = [];
+    const today = new Date();
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
+      dates.push(date);
+    }
+    return dates;
+  };
+
+
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.scrollViewContent}>
+    
       <View style={styles.header}>
         <Text style={styles.headerText}>My Weekly Plan</Text>
         <TouchableOpacity onPress={navigateToBreakfastPage}>
@@ -127,26 +146,41 @@ const HomePage = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.dateContainer}>
-        {daysOfWeek.map((day, index) => (
-          <TouchableOpacity key={index} style={styles.dayContainer} onPress={() => handleDateClick(getDayWithOffset(index))}>
-            <View style={[styles.dateCircle, selectedDate === getDayWithOffset(index) ? styles.currentDateCircle : null]}>
-              <Text style={[styles.dateText, selectedDate === getDayWithOffset(index) ? styles.currentDateText : null]}>
-                {getDayWithOffset(index)}
-              </Text>
+       
+           {renderWeekDates().map((date, index) => (
+          <View key={index} style={styles.dayContainer}>
+           
+           <Text style={styles.dateText}>{getDayWithOffset(index)}</Text>
+          
+        
+      
+      <TouchableOpacity
+                style={[
+                  styles.dateButton,
+                  date.toDateString() === selectedDate.toDateString() && styles.selectedDateButton
+                ]}
+                onPress={() => setSelectedDate(date)}
+              >
+                <View style={styles.circleDate}>
+                <Text style={styles.dateButtonText}>{date.getDate()}</Text>
+                </View>
+              </TouchableOpacity>
+              <Icon name="event" family="material" /> 
             </View>
-            <Text style={styles.dayText}>{day}</Text>
-          </TouchableOpacity>
-        ))}
-      </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleYesterdayClick}>
-          <Text style={styles.buttonText}>Yesterday</Text>
+          ))}
+        </View>
+
+        <View style={styles.container}>
+      <View style={styles.dateContainer}>
+        <TouchableOpacity onPress={() => handleDateNavigation('yesterday')}>
+          <Text style={[styles.navigationText, { color: '#0000FF' }]}>Yesterday</Text>
         </TouchableOpacity>
-        <Text style={styles.currentDate}>{selectedDate}</Text>
-        <TouchableOpacity style={styles.button} onPress={handleTomorrowClick}>
-          <Text style={styles.buttonText}>Tomorrow</Text>
+        <Text style={styles.dateText}>{currentDate.toDateString()}</Text>
+        <TouchableOpacity onPress={() => handleDateNavigation('tomorrow')}>
+          <Text style={[styles.navigationText, { color: '#0000FF' }]}>Tomorrow</Text>
         </TouchableOpacity>
       </View>
+
       <ScrollView>
         <View style={styles.mealContainer}>
           {mealItems.map((meal, index) => (
@@ -167,6 +201,7 @@ const HomePage = () => {
         <Text style={styles.nextButtonText}>Next</Text>
       </TouchableOpacity>
     </View>
+    </ScrollView>
   );
 };
 
@@ -179,11 +214,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 10,
+    paddingVertical: 20,
     backgroundColor: '#f0f0f0',
   },
   headerText: {
-    fontSize: 20,
+    fontSize: 25,
     textAlign: 'center',
     flex: 1,
   },
@@ -195,54 +230,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0',
-    paddingVertical: 10,
+    paddingHorizontal: 20,
   },
   dayContainer: {
     alignItems: 'center',
   },
-  dateCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'transparent',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#ccc',
-  },
-  currentDateCircle: {
-    backgroundColor: 'blue',
+  dayText: {
+    fontSize: 25,
+    fontWeight: 'bold',
   },
   dateText: {
-    color: 'black',
-    fontSize: 12,
+    fontSize: 15,
   },
-  currentDateText: {
-    color: 'white',
-  },
-  dayText: {
-    color: 'black',
-    fontSize: 12,
-    marginTop: 5,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    marginVertical: 10,
-  },
-  button: {
-    padding: 10,
-    backgroundColor: '#ccc',
-    borderRadius: 5,
-  },
-  buttonText: {
-    fontSize: 14,
-  },
-  currentDate: {
-    fontSize: 16,
+  calendar: {
+    marginBottom: 30,
   },
   mealContainer: {
     paddingVertical: 10,
@@ -262,13 +263,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   mealText: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     textDecorationLine: 'underline',
   },
   descriptionText: {
-    fontSize: 16,
-    marginTop: 5,
+    fontSize: 18,
+    marginTop: 8,
   },
   optionsText: {
     fontSize: 14,
@@ -276,8 +277,8 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   mealImage: {
-    width: 100,
-    height: 100,
+    width: 200,
+    height: 250,
     resizeMode: 'contain',
   },
   nextButton: {
@@ -292,6 +293,28 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
   },
+  dateButton: {
+    alignItems: 'center',
+  },
+  circleDate: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFA500', // You can customize the color
+  },
+  selectedDateButton: {
+    backgroundColor: '#0000FF', // You can customize the color for the selected date
+  },
+  dateButtonText: {
+    fontSize: 20,
+  },
+  navigationText: {
+    fontSize: 18, // Adjust the size as needed
+    marginHorizontal: 5,
+  }
+  
 });
 
 export default HomePage;

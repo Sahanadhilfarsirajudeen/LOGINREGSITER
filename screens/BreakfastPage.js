@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet, Animated } from 'react-native';
 import { Icon, Overlay } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const BreakfastPage = () => {
   const [isAlternativeVisible, setAlternativeVisible] = useState(false);
@@ -21,18 +20,6 @@ const BreakfastPage = () => {
     closeMenu(); // Close the menu after navigation
   };
 
-  const handleLogout = async () => { // Update to async function
-    try {
-      // Remove authentication token from AsyncStorage
-      await AsyncStorage.removeItem('authToken');
-      
-      // Navigate the user to the login page
-      navigation.navigate('Login');
-    } catch (error) {
-      console.error('Error while logging out:', error);
-    }
-  };
-
   const breakfastIngredients = [
     'Yoghurt bowl with fruits: ',
     '1.  Natural yogurt - 1 cup(200g)',
@@ -42,10 +29,12 @@ const BreakfastPage = () => {
   ];
 
   const mealOptions = [
-    { name: 'Account Information', onPress: () => navigateToPage('AccountSettingsPage') },
-    { name: 'Meal Plan', onPress: () => navigateToPage('Day') },
-    { name: 'Terms and Conditions', onPress: () => navigateToPage('TermsAndConditions') },
-    { name: 'Logout', onPress: handleLogout },
+    { name: 'Breakfast', onPress: () => handleNavigation('BreakfastPage') },
+    { name: 'Morning Snack', onPress: () =>handleNavigation('MorningSnacksPage') },
+    { name: 'Lunch', onPress: () => handleNavigation('LunchPage') },
+    { name: 'Afternoon Snack', onPress: () =>handleNavigation('AfternoonSnacksPage') },
+    { name: 'Dinner', onPress: () => handleNavigation('DinnerPage') },
+    { name: 'Evening Snack', onPress: () =>handleNavigation('EveningSnackPage') },
   ];
 
   const handleNavigation = (meal) => {
@@ -64,7 +53,8 @@ const BreakfastPage = () => {
 
   const renderMealOptions = () => {
     return mealOptions.map((option, index) => (
-      <TouchableOpacity key={index} onPress={option.onPress} style={styles.mealOption}>
+      <TouchableOpacity key={index} onPress={option.onPress}
+style={styles.mealOption}>
         <Text style={styles.mealOptionText}>{option.name}</Text>
       </TouchableOpacity>
     ));
@@ -82,14 +72,15 @@ const BreakfastPage = () => {
         </TouchableOpacity>
       </View>
 
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+
+     <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View style={styles.mealOptionsContainer}>{renderMealOptions()}</View>
       </ScrollView>
 
       <Text style={styles.title}>Breakfast</Text>
 
       <ScrollView>
-        <Image source={require("../assets/snacks2.jpg")} style={{ width: 200, height: 200, alignSelf: 'center' }} />
+        <Image source={require("../assets/breakfastdesign.jpg")} style={{ width: 200, height: 200, alignSelf: 'center' }} />
         <View style={styles.contentContainer}>
           <Text style={styles.title}>Yoghurt bowl with fruits</Text>
           <View style={styles.ingredientsContainer}>
@@ -99,29 +90,41 @@ const BreakfastPage = () => {
           </View>
         </View>
         <TouchableOpacity onPress={openAlternative} style={styles.swipeButton}>
-          <Text style={styles.swipeButtonText}>Swipe to see other options</Text>
+          <Text style={styles.swipeButtonText}>Click to see other options</Text>
         </TouchableOpacity>
       </ScrollView>
 
       <View style={styles.bottomIconsContainer}>
-        <TouchableOpacity style={styles.iconButton}>
-          <Icon name="settings" size={30} color="black" onPress={openMenu} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton}>
-          <Icon name="calendar" size={30} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton}>
-          <Icon name="apple" type="font-awesome-5" size={30} color="black" />
-        </TouchableOpacity>
-      </View>
+  <TouchableOpacity style={styles.iconButton}>
+  <Icon name="settings" size={30} color="black" onPress={openMenu} />
+    <Text style={styles.iconLabel}>Settings</Text>
+  </TouchableOpacity>
+  <TouchableOpacity style={styles.iconButton}>
+    <Icon name="description" size={30} color="black" />
+    <Text style={styles.iconLabel}>Plan</Text>
+  </TouchableOpacity>
+  <TouchableOpacity style={styles.iconButton}>
+    <Icon name="apple" type="font-awesome-5" size={30} color="black" />
+    <Text style={styles.iconLabel}>Meal</Text>
+  </TouchableOpacity>
+</View>
 
-      <Overlay isVisible={isMenuVisible} onBackdropPress={closeMenu}>
+<Overlay isVisible={isMenuVisible} onBackdropPress={closeMenu}>
         <View style={styles.menuContainer}>
-          {renderMealOptions()}
+          <TouchableOpacity style={styles.menuItem} onPress={() =>navigateToPage('Signup')}>
+            <Text>Account Information</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.menuItem} onPress={() => navigateToPage('Day')}>
+            <Text>Meal Plan</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.menuItem} onPress={() =>navigateToPage('TermsAndConditions')}>
+            <Text>Terms and Conditions</Text>
+          </TouchableOpacity>
         </View>
       </Overlay>
 
-      <Overlay isVisible={isAlternativeVisible} onBackdropPress={closeAlternative}>
+
+      <Overlay isVisible={isAlternativeVisible}onBackdropPress={closeAlternative}>
         <Text>Alternative Option 1</Text>
         <Text>Alternative Option 2</Text>
         <Text>Alternative Option 3</Text>
@@ -159,7 +162,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 20,
-    backgroundColor: 'lightblue',
+    backgroundColor: '#E0FFFF',
     marginRight: 10,
   },
   mealOptionText: {

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Login, Signup, Welcome, HomePage, BreakfastPage, WeekPlanning, TermsAndConditions, Day, MorningSnacksPage, DinnerPage, FeedbackPage, EveningSnackPage, LunchPage, PasswordChange } from './screens';
+import { Login, Signup, Welcome, HomePage, BreakfastPage, TermsAndConditions, Day, MorningSnacksPage, DinnerPage, FeedbackPage, EveningSnackPage, LunchPage, PasswordChange } from './screens';
 import AfternoonSnacksPage from './screens/AfternoonSnacksPage';
 import Toast from 'react-native-toast-message';
 
@@ -49,13 +49,7 @@ const App = () => {
                             headerShown: false,
                         }}
                     />
-                    <Stack.Screen
-                        name="WeekPlanning"
-                        component={WeekPlanning}
-                        options={{
-                            headerShown: false,
-                        }}
-                    />
+                    
                     <Stack.Screen
                         name="Day"
                         component={Day}

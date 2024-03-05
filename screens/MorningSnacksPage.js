@@ -3,7 +3,7 @@ import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet, Animated }
 import { Icon, Overlay } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
-const MorningSnacksPage = () => {
+const MorningSnackPage = () => {
   const [isAlternativeVisible, setAlternativeVisible] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
   const navigation = useNavigation();
@@ -23,16 +23,18 @@ const MorningSnacksPage = () => {
   const morningsnackIngredients = [
     'Fruit salad: ',
     '1.  Strawberries - 1 cup(200g)',
-    '2.  Grapes - 1 cop(200g)',
+    '2.  Grapes - 1 cup(200g)',
   ];
+
   const mealOptions = [
     { name: 'Breakfast', onPress: () => handleNavigation('BreakfastPage') },
-    { name: 'Morning Snack', onPress: () => handleNavigation('MorningSnacksPage') },
+    { name: 'Morning Snack', onPress: () =>handleNavigation('MorningSnacksPage') },
     { name: 'Lunch', onPress: () => handleNavigation('LunchPage') },
-    { name: 'Afternoon Snack', onPress: () => handleNavigation('AfternoonSnacksPage') },
+    { name: 'Afternoon Snack', onPress: () =>handleNavigation('AfternoonSnacksPage') },
     { name: 'Dinner', onPress: () => handleNavigation('DinnerPage') },
-    { name: 'Evening Snack', onPress: () => handleNavigation('EveningSnackPage') },
+    { name: 'Evening Snack', onPress: () =>handleNavigation('EveningSnackPage') },
   ];
+
   const handleNavigation = (meal) => {
     navigation.navigate(meal);
   };
@@ -49,7 +51,8 @@ const MorningSnacksPage = () => {
 
   const renderMealOptions = () => {
     return mealOptions.map((option, index) => (
-      <TouchableOpacity key={index} onPress={option.onPress} style={styles.mealOption}>
+      <TouchableOpacity key={index} onPress={option.onPress}
+style={styles.mealOption}>
         <Text style={styles.mealOptionText}>{option.name}</Text>
       </TouchableOpacity>
     ));
@@ -70,10 +73,16 @@ const MorningSnacksPage = () => {
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View style={styles.mealOptionsContainer}>{renderMealOptions()}</View>
       </ScrollView>
-      <Text style={styles.title}>MorningSnack</Text>
 
+      
+
+      <Text style={styles.title}>Morning Snack</Text>
       <ScrollView>
-        <Image source={require("../assets/snacks2.jpg")} style={{ width: 200, height: 200, alignSelf: 'center' }} />
+        <Image
+          source={require("../assets/morningsnack.jpg")}
+          style={{ width: 200, height: 200, alignSelf: 'center' }}
+        />
+
         <View style={styles.contentContainer}>
           <Text style={styles.title}>Fruit Salad</Text>
           <View style={styles.ingredientsContainer}>
@@ -82,26 +91,30 @@ const MorningSnacksPage = () => {
             ))}
           </View>
         </View>
+
         <TouchableOpacity onPress={openAlternative} style={styles.swipeButton}>
-          <Text style={styles.swipeButtonText}>Swipe to see other options</Text>
+          <Text style={styles.swipeButtonText}>Click to see other options</Text>
         </TouchableOpacity>
       </ScrollView>
 
       <View style={styles.bottomIconsContainer}>
-        <TouchableOpacity style={styles.iconButton}>
-          <Icon name="settings" size={30} color="black" onPress={openMenu} />
+        <TouchableOpacity style={styles.iconButton} onPress={openMenu}>
+          <Icon name="settings" size={30} color="black" />
+          <Text style={styles.iconLabel}>Settings</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.iconButton}>
-          <Icon name="calendar" size={30} color="black" />
+          <Icon name="description" size={30} color="black" />
+          <Text style={styles.iconLabel}>Plan</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.iconButton}>
           <Icon name="apple" type="font-awesome-5" size={30} color="black" />
+          <Text style={styles.iconLabel}>Meal</Text>
         </TouchableOpacity>
       </View>
 
       <Overlay isVisible={isMenuVisible} onBackdropPress={closeMenu}>
         <View style={styles.menuContainer}>
-          <TouchableOpacity style={styles.menuItem} onPress={() => navigateToPage('AccountSettingsPage')}>
+          <TouchableOpacity style={styles.menuItem} onPress={() => navigateToPage('Signup')}>
             <Text>Account Information</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.menuItem} onPress={() => navigateToPage('Day')}>
@@ -142,6 +155,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'blue',
   },
+  topContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 10,
+  },
+  mealText: {
+    fontSize: 16,
+  },
+  highlighted: {
+    fontWeight: 'bold',
+    color: 'green',
+  },
   mealOptionsContainer: {
     flexDirection: 'row',
     paddingHorizontal: 20,
@@ -151,7 +176,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 20,
-    backgroundColor: 'lightblue',
+    backgroundColor: '#E0FFFF',
     marginRight: 10,
   },
   mealOptionText: {
@@ -183,10 +208,14 @@ const styles = StyleSheet.create({
   bottomIconsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    alignItems: 'center',
     paddingVertical: 20,
   },
   iconButton: {
     alignItems: 'center',
+  },
+  iconLabel: {
+    marginTop: 5, // Adjust as needed for spacing
   },
   menuContainer: {
     padding: 20,
@@ -198,4 +227,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MorningSnacksPage;
+export default MorningSnackPage;

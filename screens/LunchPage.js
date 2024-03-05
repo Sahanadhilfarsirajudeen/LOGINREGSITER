@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet, Animated } from 'react-native';
-import { Icon, Overlay } from 'react-native-elements';
+import { Header, Icon, Overlay } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
 const LunchPage = () => {
@@ -19,25 +19,24 @@ const LunchPage = () => {
     navigation.navigate(page);
     closeMenu(); // Close the menu after navigation
   };
-
   const lunchIngredients = [
     'Spaghetti with capers and tomatoes: ',
     '1.  A bowl of any legumes (see general information)(100g)',
     '2.  A piece of fruit (two if small)',
     
   ];
- 
   const mealOptions = [
     { name: 'Breakfast', onPress: () => handleNavigation('BreakfastPage') },
-    { name: 'Morning Snack', onPress: () => handleNavigation('MorningSnacksPage') },
+    { name: 'Morning Snack', onPress: () =>handleNavigation('MorningSnackPage') },
     { name: 'Lunch', onPress: () => handleNavigation('LunchPage') },
-    { name: 'Afternoon Snack', onPress: () => handleNavigation('AfternoonSnacksPage') },
+    { name: 'Afternoon Snack', onPress: () =>handleNavigation('AfternoonSnackPage') },
     { name: 'Dinner', onPress: () => handleNavigation('DinnerPage') },
-    { name: 'Evening Snack', onPress: () => handleNavigation('EveningSnackPage') },
+    { name: 'Evening Snack', onPress: () =>handleNavigation('EveningSnackPage') },
   ];
 
+  
   const handleNavigation = (meal) => {
-    navigation.navigate(meal);
+    navigation.navigate(meal); // Navigate to the respective screen
   };
 
   const handleDateNavigation = (direction) => {
@@ -48,15 +47,18 @@ const LunchPage = () => {
       newDate.setDate(currentDate.getDate() + 1);
     }
     setCurrentDate(newDate);
+    // Here you can add logic to navigate to the corresponding date
   };
 
   const renderMealOptions = () => {
     return mealOptions.map((option, index) => (
-      <TouchableOpacity key={index} onPress={option.onPress} style={styles.mealOption}>
+      <TouchableOpacity key={index} onPress={option.onPress}
+style={styles.mealOption}>
         <Text style={styles.mealOptionText}>{option.name}</Text>
       </TouchableOpacity>
     ));
   };
+
 
   return (
     <View style={styles.container}>
@@ -70,14 +72,19 @@ const LunchPage = () => {
         </TouchableOpacity>
       </View>
 
+      
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View style={styles.mealOptionsContainer}>{renderMealOptions()}</View>
       </ScrollView>
-
+      
       <Text style={styles.title}>Lunch</Text>
-
+      
       <ScrollView>
-        <Image source={require("../assets/snacks2.jpg")} style={{ width: 200, height: 200, alignSelf: 'center' }} />
+        <Image
+          source={require("../assets/lunch.jpg")}
+          style={{ width: 200, height: 200, alignSelf: 'center' }}
+        />
+
         <View style={styles.contentContainer}>
           <Text style={styles.title}>Spaghetti with capers and tomatoes</Text>
           <View style={styles.ingredientsContainer}>
@@ -86,42 +93,50 @@ const LunchPage = () => {
             ))}
           </View>
         </View>
+
         <TouchableOpacity onPress={openAlternative} style={styles.swipeButton}>
-          <Text style={styles.swipeButtonText}>Swipe to see other options</Text>
+          <Text style={styles.swipeButtonText}>Click to see other options</Text>
         </TouchableOpacity>
+
+        
       </ScrollView>
 
       <View style={styles.bottomIconsContainer}>
-        <TouchableOpacity style={styles.iconButton}>
-          <Icon name="settings" size={30} color="black" onPress={openMenu} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton}>
-          <Icon name="calendar" size={30} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton}>
-          <Icon name="apple" type="font-awesome-5" size={30} color="black" />
-        </TouchableOpacity>
-      </View>
+  <TouchableOpacity style={styles.iconButton}>
+  <Icon name="settings" size={30} color="black" onPress={openMenu} />
+    <Text style={styles.iconLabel}>Settings</Text>
+  </TouchableOpacity>
+  <TouchableOpacity style={styles.iconButton}>
+    <Icon name="description" size={30} color="black" />
+    <Text style={styles.iconLabel}>Plan</Text>
+  </TouchableOpacity>
+  <TouchableOpacity style={styles.iconButton}>
+    <Icon name="apple" type="font-awesome-5" size={30} color="black" />
+    <Text style={styles.iconLabel}>Meal</Text>
+  </TouchableOpacity>
+</View>
 
-      <Overlay isVisible={isMenuVisible} onBackdropPress={closeMenu}>
+<Overlay isVisible={isMenuVisible} onBackdropPress={closeMenu}>
         <View style={styles.menuContainer}>
-          <TouchableOpacity style={styles.menuItem} onPress={() => navigateToPage('AccountSettingsPage')}>
+          <TouchableOpacity style={styles.menuItem} onPress={() =>navigateToPage('Signup')}>
             <Text>Account Information</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem} onPress={() => navigateToPage('Day')}>
+          <TouchableOpacity style={styles.menuItem} onPress={() => navigateToPage('MealSelectionPage')}>
             <Text>Meal Plan</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem} onPress={() => navigateToPage('TermsAndConditions')}>
+          <TouchableOpacity style={styles.menuItem} onPress={() =>navigateToPage('TermsAndConditions')}>
             <Text>Terms and Conditions</Text>
           </TouchableOpacity>
         </View>
       </Overlay>
 
       <Overlay isVisible={isAlternativeVisible} onBackdropPress={closeAlternative}>
+        {/* Alternative content goes here */}
         <Text>Alternative Option 1</Text>
         <Text>Alternative Option 2</Text>
         <Text>Alternative Option 3</Text>
-      </Overlay>
+        {/* Add more alternative options */}
+      </Overlay> 
     </View>
   );
 };
@@ -151,11 +166,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
   },
+  mealOptionsContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
   mealOption: {
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 20,
-    backgroundColor: 'lightblue',
+    backgroundColor: '#E0FFFF',
     marginRight: 10,
   },
   mealOptionText: {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet, Animated } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, StyleSheet, Animated  } from 'react-native';
 import { Icon, Overlay } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
@@ -20,24 +20,25 @@ const DinnerPage = () => {
     navigation.navigate(page);
     closeMenu(); // Close the menu after navigation
   };
-
   const dinnerIngredients = [
     'Buckwheat with olives and artichokes: ',
     '1.  A bowl of any legumes (see general information)(200g)',
     '2.  A piece of fruit (two if small)',
     '3.  Daily amount of extra virgin olive oil (excluding recipes)- 3 spoon',
   ];
+  
   const mealOptions = [
     { name: 'Breakfast', onPress: () => handleNavigation('BreakfastPage') },
-    { name: 'Morning Snack', onPress: () => handleNavigation('MorningSnacksPage') },
+    { name: 'Morning Snack', onPress: () =>handleNavigation('MorningSnacksPage') },
     { name: 'Lunch', onPress: () => handleNavigation('LunchPage') },
-    { name: 'Afternoon Snack', onPress: () => handleNavigation('AfternoonSnacksPage') },
+    { name: 'Afternoon Snack', onPress: () =>handleNavigation('AfternoonSnacksPage') },
     { name: 'Dinner', onPress: () => handleNavigation('DinnerPage') },
-    { name: 'Evening Snack', onPress: () => handleNavigation('EveningSnackPage') },
+    { name: 'Evening Snack', onPress: () =>handleNavigation('EveningSnackPage') },
   ];
 
+
   const handleNavigation = (meal) => {
-    navigation.navigate(meal);
+    navigation.navigate(meal); // Navigate to the respective screen
   };
 
   const handleDateNavigation = (direction) => {
@@ -48,17 +49,21 @@ const DinnerPage = () => {
       newDate.setDate(currentDate.getDate() + 1);
     }
     setCurrentDate(newDate);
+    
   };
 
   const renderMealOptions = () => {
     return mealOptions.map((option, index) => (
-      <TouchableOpacity key={index} onPress={option.onPress} style={styles.mealOption}>
+      <TouchableOpacity key={index} onPress={option.onPress}
+style={styles.mealOption}>
         <Text style={styles.mealOptionText}>{option.name}</Text>
       </TouchableOpacity>
     ));
   };
+  
   return (
     <View style={styles.container}>
+      <ScrollView style={{ flex: 1 }}>
       <View style={styles.dateContainer}>
         <TouchableOpacity onPress={() => handleDateNavigation('yesterday')}>
           <Text style={styles.navigationText}>Yesterday</Text>
@@ -72,11 +77,14 @@ const DinnerPage = () => {
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View style={styles.mealOptionsContainer}>{renderMealOptions()}</View>
       </ScrollView>
+        
 
-      <Text style={styles.title}>Dinner</Text>
+        <Text style={styles.title}>Dinner</Text>
+        <Image
+          source={require("../assets/dinner.jpg")}
+          style={{ width: 200, height: 200, alignSelf: 'center' }}
+        />
 
-      <ScrollView>
-        <Image source={require("../assets/snacks2.jpg")} style={{ width: 200, height: 200, alignSelf: 'center' }} />
         <View style={styles.contentContainer}>
           <Text style={styles.title}>Buckwheat with olives and artichokes</Text>
           <View style={styles.ingredientsContainer}>
@@ -85,32 +93,36 @@ const DinnerPage = () => {
             ))}
           </View>
         </View>
+
         <TouchableOpacity onPress={openAlternative} style={styles.swipeButton}>
-          <Text style={styles.swipeButtonText}>Swipe to see other options</Text>
+          <Text style={styles.swipeButtonText}>Click to see other options</Text>
         </TouchableOpacity>
       </ScrollView>
 
       <View style={styles.bottomIconsContainer}>
-        <TouchableOpacity style={styles.iconButton}>
-          <Icon name="settings" size={30} color="black" onPress={openMenu} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton}>
-          <Icon name="calendar" size={30} color="black" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.iconButton}>
-          <Icon name="apple" type="font-awesome-5" size={30} color="black" />
-        </TouchableOpacity>
-      </View>
+  <TouchableOpacity style={styles.iconButton}>
+  <Icon name="settings" size={30} color="black" onPress={openMenu} />
+    <Text style={styles.iconLabel}>Settings</Text>
+  </TouchableOpacity>
+  <TouchableOpacity style={styles.iconButton}>
+    <Icon name="description" size={30} color="black" />
+    <Text style={styles.iconLabel}>Plan</Text>
+  </TouchableOpacity>
+  <TouchableOpacity style={styles.iconButton}>
+    <Icon name="apple" type="font-awesome-5" size={30} color="black" />
+    <Text style={styles.iconLabel}>Meal</Text>
+  </TouchableOpacity>
+</View>
 
-      <Overlay isVisible={isMenuVisible} onBackdropPress={closeMenu}>
+<Overlay isVisible={isMenuVisible} onBackdropPress={closeMenu}>
         <View style={styles.menuContainer}>
-          <TouchableOpacity style={styles.menuItem} onPress={() => navigateToPage('AccountSettingsPage')}>
+          <TouchableOpacity style={styles.menuItem} onPress={() =>navigateToPage('Signup')}>
             <Text>Account Information</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.menuItem} onPress={() => navigateToPage('Day')}>
             <Text>Meal Plan</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menuItem} onPress={() => navigateToPage('TermsAndConditions')}>
+          <TouchableOpacity style={styles.menuItem} onPress={() =>navigateToPage('TermsAndConditions')}>
             <Text>Terms and Conditions</Text>
           </TouchableOpacity>
         </View>
@@ -154,7 +166,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 20,
-    backgroundColor: 'lightblue',
+    backgroundColor: '#E0FFFF',
     marginRight: 10,
   },
   mealOptionText: {
@@ -200,5 +212,4 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ccc',
   },
 });
-
 export default DinnerPage;

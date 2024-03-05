@@ -3,7 +3,6 @@ import Welcome from "./Welcome";
 import Signup from "./Signup";
 import HomePage from "./HomePage";
 import BreakfastPage from "./BreakfastPage";
-import WeekPlanning from "./WeekPlanning";
 import TermsAndConditions from "./TermsAndConditions";
 import Day from "./Day";
 import MorningSnacksPage from "./MorningSnacksPage";
@@ -20,7 +19,6 @@ export {
     Signup,
     HomePage,
     BreakfastPage,
-    WeekPlanning,
     TermsAndConditions,
     Day,
     MorningSnacksPage,
